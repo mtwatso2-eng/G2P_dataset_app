@@ -2,9 +2,9 @@ datasets <- list(
   
   "ui" = page_fillable(
     layout_columns(
-    
+      width = c(6,6),
+      style = "height:100vh;",
       card(
-        card_header("Datatable"), 
         fluidRow(
           tags$style(HTML("
           .dataTables_wrapper .dataTables_filter {
@@ -12,13 +12,14 @@ datasets <- list(
             text-align: left;
           }
         ")),
+          
           column(12, DTOutput("metadataTable")) 
         ),
-        style = "overflow-y: scroll;"
+        style = "overflow-y: scroll; height=100%;"
       ),
       
-      card(card_header("Selected data details"),
-           navset_tab(nav_panel(title = "Summary", htmlOutput("datasetSummary")),
+      card(
+           navset_tab(nav_panel(title = "Summary and code", htmlOutput("datasetSummary")),
                       nav_panel(title = "Loader code", uiOutput("copyButton"),
                                 verbatimTextOutput("loaderCode")))
     ))
@@ -32,17 +33,14 @@ datasets <- list(
       filter = "top",
       rownames = F,
       options = list(
-        pageLength = 10,
+        pageLength = -1,
         deferRender = T,
-        scrollY = 400,
+        scrollY = 700,
         scrollX = TRUE,
-        dom = 'ftip',
+        dom = 'ft',
         autoWidth = TRUE,
-        autoheight = TRUE,
         responsive = TRUE,
-        columnDefs = list(list(width = '10%', targets = c(0,1)), 
-                          list(width = '5%', targets = c(3,4)),
-                          list(width = '20%', targets = 5),
+        columnDefs = list(list(width = '20%', targets = c(0,1,3,4,5)),
                           list(visible = FALSE, targets = 2))
       ),
       callback = JS(
