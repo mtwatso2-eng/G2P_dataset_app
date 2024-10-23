@@ -1,0 +1,12 @@
+name: G2P-Datasets-test
+title: G2P-Datasets-test
+username: tmdengapp
+account: tmdengapp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13038184
+bundleId: 9231423
+url: https://tmdengapp.shinyapps.io/G2P-Datasets-test/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,27 +1,28 @@
 datasets <- list(
   
-  "ui" = page_fillable(
+  "ui" = page_fluid(
     layout_columns(
       width = c(6,6),
       style = "height:100vh;",
+      
       card(
         fluidRow(
           tags$style(HTML("
           .dataTables_wrapper .dataTables_filter {
             float: left;
-            text-align: left;
-          }
+            text-align: left; }
         ")),
           
           column(12, DTOutput("metadataTable")) 
         ),
-        style = "overflow-y: scroll; height=100%;"
+        style = "height=100%;"
       ),
       
       card(
-           navset_tab(nav_panel(title = "Summary and code", htmlOutput("datasetSummary")),
-                      nav_panel(title = "Loader code", uiOutput("copyButton"),
-                                verbatimTextOutput("loaderCode")))
+           htmlOutput("datasetSummary"),
+           uiOutput("copyButton"),
+           verbatimTextOutput("loaderCode"),
+           verbatimTextOutput("curationCode")
     ))
   ),
   
@@ -35,14 +36,15 @@ datasets <- list(
       options = list(
         pageLength = -1,
         deferRender = T,
-        scrollY = 700,
+        scrollY = TRUE,
         scrollX = TRUE,
         dom = 'ft',
         autoWidth = TRUE,
         responsive = TRUE,
-        columnDefs = list(list(width = '20%', targets = c(0,1,3,4,5)),
-                          list(visible = FALSE, targets = 2))
+        columnDefs = list(
+          list(width = '20%', targets = 1))
       ),
+      
       callback = JS(
         "$(document).ready(function() {",
         "  $('#example').DataTable();",
@@ -77,12 +79,14 @@ datasets <- list(
                     selectedData$Scientific_Name, "</p>",
                     
                     "<p style='margin-bottom: 5px;'><strong>Abstract:</strong></p>", 
-                    "<p>", selectedData$Abstract, "</p>"
+                    "<p>", selectedData$Abstract, "</p>",
+                    
+                    # Code section
+                    "<p style='margin-bottom: 5px;'><strong>Code to load, curate, and analyze:</strong></p>"
         ))
       })
       
       loaderCode <- assembleLoaderCode(selected_row)
-      
       output$copyButton <- renderUI({
         rclipButton(
           inputId = "copy", 
@@ -91,9 +95,19 @@ datasets <- list(
           icon = icon("clipboard")
         )
       })
-      
       output$loaderCode <- renderText(loaderCode)
-          
+      
+      curationCode <- assembleCurationCode(selected_row)
+      output$copyButton <- renderUI({
+        rclipButton(
+          inputId = "copy", 
+          label = "",
+          clipText = curationCode,
+          icon = icon("clipboard")
+        )
+      })
+      output$curationCode <- renderText(curationCode)
+      
     })
     
   }
