@@ -1,6 +1,6 @@
+
 datasets <- list(
-  
-  "ui" = page_fluid(
+  "ui" = page_fillable(
     layout_columns(
       width = c(6,6),
       style = "height:100vh;",
@@ -19,10 +19,11 @@ datasets <- list(
       ),
       
       card(
-           htmlOutput("datasetSummary"),
-           uiOutput("copyButton"),
-           verbatimTextOutput("loaderCode"),
-           verbatimTextOutput("curationCode")
+           htmlOutput("datasetSummary")
+           
+           #uiOutput("copyButtonLoader"),
+           #verbatimTextOutput("loaderCode"),
+           #verbatimTextOutput("curationCode")
     ))
   ),
   
@@ -45,6 +46,7 @@ datasets <- list(
           list(width = '20%', targets = 1))
       ),
       
+      # Search functionality
       callback = JS(
         "$(document).ready(function() {",
         "  $('#example').DataTable();",
@@ -65,6 +67,11 @@ datasets <- list(
       escape = F
     ))
     
+    observe({
+      DT::selectRows(dataTableProxy("metadataTable"), 1)
+    })
+    
+    # User action
     observeEvent(input$metadataTable_rows_selected, {
       
       selected_row <- input$metadataTable_rows_selected
@@ -72,19 +79,36 @@ datasets <- list(
       
       output$datasetSummary <- renderUI({
         HTML(paste0("<h3 style='margin-bottom: 10px;'>", selectedData$Title, "</h3>",
+                    
                     "<p style='margin-bottom: 10px;'><strong>DOI:</strong> <a href='",
                     selectedData$DOI, "' target='_blank'>", selectedData$DOI, "</a></p>",
                     
-                    "<p style='margin-bottom: 20px;'><strong>Scientific name:</strong> ", 
-                    selectedData$Scientific_Name, "</p>",
+                    "<p style='margin-bottom: 20px;'><strong>Scientific name, Common name:</strong> ", 
+                    selectedData$Scientific_Name, ", ", selectedData$Common_Name, "</p>",
                     
-                    "<p style='margin-bottom: 5px;'><strong>Abstract:</strong></p>", 
-                    "<p>", selectedData$Abstract, "</p>",
-                    
-                    # Code section
-                    "<p style='margin-bottom: 5px;'><strong>Code to load, curate, and analyze:</strong></p>"
+                    accordion(
+                      id = "Abstract",
+                      open = FALSE,
+                      accordion_panel(
+                        title = HTML("<strong>Abstract</strong>"),
+                        HTML(paste0("<p>", selectedData$Abstract, "</p>"))
+        )),
+        
+        accordion(
+          id = "code",
+          open = FALSE,
+          accordion_panel(
+            title = HTML("<strong>Coad to load, curate, and analyze</strong>"),
+            HTML(paste0("<p>", "Loading", "</a></p>")),
+            verbatimTextOutput("loaderCode", placeholder = TRUE),
+            HTML(paste0("<p>", "Curating", "</a></p>")),
+            verbatimTextOutput("curationCode", placeholder = TRUE),
+            HTML(paste0("<p>", "Analyzing", "</a></p>")),
+            verbatimTextOutput("analysisCode", placeholder = TRUE)
+          ))
         ))
       })
+      
       
       loaderCode <- assembleLoaderCode(selected_row)
       output$copyButton <- renderUI({
@@ -96,6 +120,7 @@ datasets <- list(
         )
       })
       output$loaderCode <- renderText(loaderCode)
+      
       
       curationCode <- assembleCurationCode(selected_row)
       output$copyButton <- renderUI({
@@ -113,3 +138,4 @@ datasets <- list(
   }
   
 )
+
