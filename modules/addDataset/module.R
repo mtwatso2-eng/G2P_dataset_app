@@ -66,7 +66,7 @@ addDataset <- list(
       column(4,
              div(class = "input-group",
                  div(class = "input-row",
-                     textInput("addSpec", HTML("<strong>Species</strong>"),width = "100%",value = "Tomato")
+                     textInput("addSpec", HTML("<strong>Species</strong>"),width = "100%",value = "")
                  ))),
       
     ),
@@ -75,7 +75,7 @@ addDataset <- list(
     fluidRow(
       column(5,
              tags$div(
-               HTML("<strong>Code to load data</strong><span style='color:grey; font-size:12px;'>( Refer to existing datasets )</span>"),
+               HTML("<strong>Code to load data</strong><span style='color:grey; font-size:12px;'> ( Refer to existing datasets )</span>"),
                style = "margin-bottom: 5px;"
              ),
              textAreaInput("addLoaderCode",NULL, height = "110px", width = "100%",
