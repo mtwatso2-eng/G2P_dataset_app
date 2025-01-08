@@ -13,6 +13,7 @@ library(readxl)
 library(gert)
 library(stringdist)
 library(base64enc)
+require(assignPOP)
 
 
 # Check if the URL is valid

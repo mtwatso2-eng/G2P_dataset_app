@@ -12,7 +12,7 @@ library(shinyjs)
 library(gert)
 source("utils.R")
 
-repoDir <- "https://github.com/mtwatso2-eng/testing/archive/refs/heads/main.zip"
+repoDir <- "https://github.com/YunxuanDeng/G2P_dataset_app/archive/refs/heads/master.zip"
 download.file(url = repoDir, destfile = "repo.zip")
 unzip(zipfile = "repo.zip")
 
