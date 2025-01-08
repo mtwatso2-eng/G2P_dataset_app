@@ -1,7 +1,7 @@
 assembleDatasetCitation <- function(datasets){
   
   datasets <- metadata[datasets,]$Folder
-  datasetDir <- paste0("testing-main/Datasets/", datasets, "/output")
+  datasetDir <- paste0("GPDatasets-main/Datasets/", datasets, "/output")
     # Need to modify to be automatically set to "testing-main/Datasets/{Folder}/{ouput}"
   
   Citation <- datasetDir %>%

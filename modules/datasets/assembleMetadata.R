@@ -5,11 +5,11 @@ assembleMetadata <- function(metadata){
   }
   
   metadata %<>%
-    select(Title, `n Genotypes` = N_Geno, `n Markers` = N_markers, Phenotype, Tags) %>%
+    select(Title, `N Geno` = N_Geno, `N Markers` = N_markers, `Has Phenotype?` = Phenotype, Tags) %>%
     rowwise() %>%
     mutate(
-      `n Genotypes` = as.integer(`n Genotypes`),
-      `n Markers` = as.integer(`n Markers`),
+      `N Geno` = as.integer(`N Geno`),
+      `N Markers` = as.integer(`N Markers`),
       #DOI = createLink(DOI)
     ) %>%
     ungroup()

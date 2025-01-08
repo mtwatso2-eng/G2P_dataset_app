@@ -105,7 +105,9 @@ datasets <- list(
             HTML("<br>"),
             
             HTML(paste0("<p>", "To analyze data, run this code:", "</a></p>")),
-            verbatimTextOutput("analysisCode", placeholder = TRUE)
+            verbatimTextOutput("analysisCode", placeholder = TRUE),
+            uiOutput("copyButtonAnalysis"),
+            HTML("<br>"),
           )),
         
         accordion(
@@ -146,6 +148,20 @@ datasets <- list(
         )
       })
       output$curationCode <- renderText(curationCode)
+      
+      
+      analysisCode <- assembleAnalysesCode(selected_row)
+      output$copyButtonAnalysis <- renderUI({
+        rclipButton(
+          inputId = "copy", 
+          label = "",
+          clipText = analysisCode,
+          icon = icon("clipboard"),
+          style = "padding: 5px 10px"
+        )
+      })
+      output$analysisCode <- renderText(analysisCode)
+      
       
       # Assemble citation
       Citation <- assembleDatasetCitation(selected_row)
