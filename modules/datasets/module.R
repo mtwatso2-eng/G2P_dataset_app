@@ -104,10 +104,18 @@ datasets <- list(
             uiOutput("copyButtonCuration"),
             HTML("<br>"),
             
-            HTML(paste0("<p>", "To analyze data, run this code:", "</a></p>")),
-            verbatimTextOutput("analysisCode", placeholder = TRUE),
-            uiOutput("copyButtonAnalysis"),
-            HTML("<br>"),
+            HTML(paste0("<p>", "To analyze data, run code below:", "</a></p>")),
+            navset_pill(
+              id = "methodTabs",
+              !!!lapply(method_names, function(method) {
+                nav_panel(
+                  title = method,
+                  verbatimTextOutput(paste0("analysisCode_", method), placeholder = TRUE),
+                  uiOutput(paste0("copyButtonAnalysis_", method)),
+                  tags$br()
+                )
+              })
+            )
           )),
         
         accordion(
@@ -150,18 +158,50 @@ datasets <- list(
       output$curationCode <- renderText(curationCode)
       
       
-      analysisCode <- assembleAnalysesCode(selected_row)
-      output$copyButtonAnalysis <- renderUI({
-        rclipButton(
-          inputId = "copy", 
-          label = "",
-          clipText = analysisCode,
-          icon = icon("clipboard"),
-          style = "padding: 5px 10px"
-        )
-      })
-      output$analysisCode <- renderText(analysisCode)
+      # analysisCode <- assembleAnalysesCode(selected_row)
+      # output$copyButtonAnalysis <- renderUI({
+      #   rclipButton(
+      #     inputId = "copy", 
+      #     label = "",
+      #     clipText = analysisCode,
+      #     icon = icon("clipboard"),
+      #     style = "padding: 5px 10px"
+      #   )
+      # })
+      # output$analysisCode <- renderText(analysisCode)
       
+      
+      # Define the directory containing method files
+      AnalysesCodeDir <- "GPDatasets-main/Analyses"
+      
+      # Dynamically generate method names from file names
+      method_files <- list.files(AnalysesCodeDir, pattern = "\\.R$", full.names = TRUE)
+      method_names <- gsub("\\.R$", "", basename(method_files))
+      
+      # Read and prepare code for each method
+      method_codes <- lapply(method_files, readLines)
+      names(method_codes) <- method_names
+      
+      # Render code and copy buttons for each method dynamically
+      lapply(seq_along(method_names), function(i) {
+        method <- method_names[i]
+        
+        # Render the analysis code
+        output[[paste0("analysisCode_", method)]] <- renderText({
+          paste(method_codes[[i]], collapse = "\n")
+        })
+        
+        # Render the copy button for the analysis code
+        output[[paste0("copyButtonAnalysis_", method)]] <- renderUI({
+          rclipButton(
+            inputId = paste0("copy_", method),
+            label = "",
+            clipText = paste(method_codes[[i]], collapse = "\n"),
+            icon = icon("clipboard"),
+            style = "padding: 5px 10px"
+          )
+        })
+      })
       
       # Assemble citation
       Citation <- assembleDatasetCitation(selected_row)
