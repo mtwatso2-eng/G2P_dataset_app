@@ -5,9 +5,6 @@ The G2P-Datasets web app is a platform for accessing the >100 public genome-to-p
 The app can be accessed at:
 [https://tmdengapp.shinyapps.io/G2P-Datasets-App/](https://mtwatson.shinyapps.io/G2P-datasets/)
 
-# GPDatasets
-The G2P-Datasets app is a platform for accessing >100 public genome-to-phenome datasets for plants and animals.
-
 # How to use GPDatasets
 Datasets and code in the repo can be search for via the GPDatasets web app at https://mtwatson.shinyapps.io/G2P-datasets/.
 
