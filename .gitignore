@@ -1,0 +1,29 @@
+# R specific files
+.Rhistory
+.RData
+.Ruserdata
+.Rapp.history
+
+# Shiny specific
+rsconnect/
+*.RData
+environment.RData
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Large files that shouldn't be in git
+*.zip
+repo.zip
+
+# Temporary files
+*.tmp
+*.temp
+
+# Logs
+*.log
+
+# R package specific
+packrat/
+.Rprofile
