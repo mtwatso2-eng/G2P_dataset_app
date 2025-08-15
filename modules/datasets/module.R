@@ -91,7 +91,7 @@ datasets <- list(
           id = "code",
           open = FALSE,
           accordion_panel(
-            title = HTML("<strong>Code to load, curate, and analyze</strong>"),
+            title = HTML("<strong>R scripts</strong>"),
             
             HTML(paste0("<p>To download the dataset, go to <a href='", selectedData$Sharing_Link, "' target='_blank'>",
                         selectedData$Sharing_Link, "</a> and follow download instructions.</p>")),

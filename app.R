@@ -1,10 +1,10 @@
 source("global.R")
 source("RSFunctions.R")
 
-ui <- navbarPage(id = "tabs", collapsible = TRUE, title = "Genome-to-Phenome Datasets App",
-  modulePanel("Datasets", value = "datasets"),
+ui <- navbarPage(id = "tabs", collapsible = TRUE, title = "G2P Datasets",
+  modulePanel("Browse datasets", value = "datasets"),
   modulePanel("Add dataset", value = "addDataset"),
-  modulePanel("About", value = "about"),
+  modulePanel("About the project", value = "about"),
   reloadWarning,
   tags$head(tags$link(rel="shortcut icon", href="https://storage.googleapis.com/kaggle-organizations/4421/thumbnail.png?t=2025-01-17-04-03-19"))
 )
