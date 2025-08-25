@@ -30,9 +30,8 @@ datasets <- list(
         scrollY = TRUE,
         scrollX = TRUE,
         dom = 'ft',
-        # autoWidth = TRUE,
-        responsive = TRUE
-        # columnDefs = list(list(width = '50px', targets = c(4)))
+        responsive = TRUE,
+        columnDefs = list(list(visible=FALSE, targets=c("Common_Name", "Scientific_Name")))
       ),
       
       # Search functionality
