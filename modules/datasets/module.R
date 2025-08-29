@@ -31,7 +31,7 @@ datasets <- list(
         scrollX = TRUE,
         dom = 'ft',
         responsive = TRUE,
-        columnDefs = list(list(visible=FALSE, targets=c("Common_Name", "Scientific_Name")))
+        columnDefs = list(list(visible=FALSE, targets=c("Common_Name", "Scientific_Name", "Title", "Abstract")))
       ),
       
       # Search functionality
